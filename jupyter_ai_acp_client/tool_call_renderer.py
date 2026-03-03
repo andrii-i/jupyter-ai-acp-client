@@ -7,9 +7,9 @@ for Yjs transport as part of chat messages.
 """
 
 from dataclasses import dataclass, asdict
-from typing import Optional, Any
+from typing import Optional, Any, List, Union
 
-from acp.schema import FileEditToolCallContent
+from acp.schema import ContentToolCallContent, FileEditToolCallContent, TerminalToolCallContent
 
 
 @dataclass
@@ -36,7 +36,9 @@ class ToolCallState:
     diffs: Optional[list[ToolCallDiff]] = None
 
 
-def extract_diffs(content: Any) -> Optional[list[ToolCallDiff]]:
+def extract_diffs(
+    content: Optional[List[Union[ContentToolCallContent, FileEditToolCallContent, TerminalToolCallContent]]]
+) -> Optional[list[ToolCallDiff]]:
     """Extract FileEditToolCallContent items from an ACP content list."""
     if not content:
         return None
